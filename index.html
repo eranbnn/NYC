@@ -1,8 +1,43 @@
-<html>
+<html ng-app="app">
 <head>
-	<script src="jquery.min.js"></script>
+	<script src="angular.min.js"></script>
+	<style>
+		.item-row {
+			display: table-row;
+			margin: 5px;
+		}
+		.item-row > * {
+			display: table-cell;
+			padding: 10px;
+			min-width: 100px;
+		}
+		.action-button {
+			cursor: pointer;
+			text-align: center;
+		}
+		.interesting {
+			background-color: #64c768;
+		}
+		.not-interesting {
+			background-color: #fb6262;
+		}
+	</style>
 </head>
-<body>
+<body ng-controller="main">
+	<input type="text" ng-model="filterName" placeholder="Filter"/>
+	
+	<div ng-repeat="item in list" class="item-row" ng-show="([item[0]] | filter:filterName).length">
+		<a href='{{::item[1]}}' target="blank">{{::item[0]}}</a>
+		<div class='action-button {{metadata[item[1]].notInteresting ? "not-interesting" : "interesting"}}' ng-click="flip(item[1])">
+			{{metadata[item[1]].notInteresting ? "not interesting" : "interesting"}}
+		</div>
+		<div ng-if="!metadata[item[1]].notInteresting">
+			<a href='https://www.linkedin.com/vsearch/f?keywords={{::item[0]}}' target="blank">linkedin search</a>
+		</div>
+		<div ng-if="!metadata[item[1]].notInteresting">
+			<input type="text" ng-model="metadata[item[1]].person" ng-change="save()" placeholder="target person"/>
+		</div>
+	</div>
 </body>
 <script src="index.js"></script>
 </html>
