@@ -37,6 +37,9 @@
 		<div ng-if="!metadata[item[1]].notInteresting">
 			<input type="text" ng-model="metadata[item[1]].person" ng-change="save()" placeholder="target person"/>
 		</div>
+		<div ng-if="!metadata[item[1]].notInteresting">
+			<input type="checkbox" ng-model="metadata[item[1]].hasSent" ng-change="save()"/>{{metadata[item[1]].hasSent ? "Sent" : ""}}
+		</div>
 	</div>
 </body>
 <script src="index.js"></script>
