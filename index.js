@@ -15,6 +15,10 @@ angular.module("app", [])
 			window.localStorage.setItem("metadata", JSON.stringify($scope.metadata));
 		}
 		
+		$scope.countSent = function () {
+			return $scope.list.filter(function(item) { return $scope.metadata[item[1]] && $scope.metadata[item[1]].hasSent; }).length;
+		}
+		
 		$scope.flip = function (key) {
 			$scope.metadata[key] = $scope.metadata[key] || {};
 			$scope.metadata[key].notInteresting = !$scope.metadata[key].notInteresting;

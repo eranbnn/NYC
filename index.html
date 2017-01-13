@@ -25,7 +25,7 @@
 	<title>Hunt Easily</title>
 </head>
 <body ng-controller="main">
-	<input type="text" ng-model="filterName" placeholder="Filter"/>
+	<input type="text" ng-model="filterName" placeholder="Filter"/> in {{list.length}} startups. Already sent to {{countSent()}}.
 	
 	<div ng-repeat="item in list" class="item-row" ng-show="([item[0]] | filter:filterName).length">
 		<a href='{{::item[1]}}' target="blank">{{::item[0]}}</a>
