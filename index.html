@@ -36,6 +36,9 @@
 			<a href='https://www.linkedin.com/vsearch/p?keywords={{::item[0]}}&f_G=us%3A70' target="blank">linkedin search</a>
 		</div>
 		<div ng-if="!metadata[item[1]].notInteresting">
+			<a ng-if="item[2]" href='{{item[2]}}' target="blank">careers</a>
+		</div>
+		<div ng-if="!metadata[item[1]].notInteresting">
 			<input type="text" ng-model="metadata[item[1]].person" ng-change="save()" placeholder="target person"/>
 		</div>
 		<div ng-if="!metadata[item[1]].notInteresting">
