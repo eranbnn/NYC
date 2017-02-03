@@ -39,8 +39,8 @@
 				function (response) {
 				  if (response && !response.error) {
 					for (var i = 0 ; i < response.data.length ; i++) {
-						if (response.data[0].from.id === pageID) {
-							document.body.innerHTML += createUrl(response.data[0].id) + "<br/>";
+						if (response.data[i].from.id === pageID) {
+							document.body.innerHTML += "<a href='" + createUrl(response.data[i].id) + "'>" + response.data[i].message + "</a>" + "<br/>";
 						}
 					}
 				  }
