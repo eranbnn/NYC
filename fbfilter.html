@@ -15,26 +15,8 @@
 
 	FB.getLoginStatus(function(response) {
 	  if (response.status === 'connected') {
-		console.log('Logged in.');
-		
-		
-		function handleRespone(response) {
-		  if (response && !response.error) {
-			// handle the result
-			document.body.innerHTML += (JSON.stringify(response));
-		  }
-		}
-		
 		FB.api(
 			"/YairLapid/feed",
-			handleRespone
-		);
-		FB.api(
-			"/YairLapid/conversations",
-			handleRespone
-		);
-		FB.api(
-			"/YairLapid/tagged",
 			handleRespone
 		);
 	  }
@@ -43,6 +25,19 @@
 		FB.login();
 	  }
 	});
+		
+	function handleRespone(response) {
+		response.data.forEach(function (post) {
+			FB.api(
+				"/" + post.id + "/comments",
+				function (response) {
+				  if (response && !response.error) {
+					document.body.innerHTML += (JSON.stringify(response));
+				  }
+				}
+			);
+		});
+	}
 
 
   };
