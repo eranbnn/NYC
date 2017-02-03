@@ -37,7 +37,6 @@
 		response.data.forEach(function (post) {
 			FB.api(
 				"/" + post.id + "/comments",
-				{limit: 100},
 				function (response) {
 				  if (response && !response.error) {
 					for (var i = 0 ; i < response.data.length ; i++) {
