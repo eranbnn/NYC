@@ -17,32 +17,25 @@
 	  if (response.status === 'connected') {
 		console.log('Logged in.');
 		
+		
+		function handleRespone(response) {
+		  if (response && !response.error) {
+			// handle the result
+			document.body.innerHTML += (JSON.stringify(response));
+		  }
+		}
+		
 		FB.api(
 			"/YairLapid/feed",
-			function (response) {
-			  if (response && !response.error) {
-				// handle the result
-				document.write(JSON.stringify(response));
-			  }
-			}
+			handleRespone
 		);
 		FB.api(
 			"/YairLapid/conversations",
-			function (response) {
-			  if (response && !response.error) {
-				// handle the result
-				document.write(JSON.stringify(response));
-			  }
-			}
+			handleRespone
 		);
 		FB.api(
 			"/YairLapid/tagged",
-			function (response) {
-			  if (response && !response.error) {
-				// handle the result
-				document.write(JSON.stringify(response));
-			  }
-			}
+			handleRespone
 		);
 	  }
 	  else {
