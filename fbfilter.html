@@ -16,30 +16,31 @@
 	FB.getLoginStatus(function(response) {
 	  if (response.status === 'connected') {
 		console.log('Logged in.');
-			
-		FB.api('/me', {fields: 'last_name'}, function(response) {
-		  console.log(response);
-		});
-		
-		FB.api('/113124472034820', function(response) {
-		  console.log(response);
-		});
-		
-		var body = 'Reading JS SDK documentation';
-		FB.api('/me/feed', 'post', { message: body }, function(response) {
-		  if (!response || response.error) {
-			alert('Error occured');
-		  } else {
-			alert('Post ID: ' + response.id);
-		  }
-		});
 		
 		FB.api(
 			"/YairLapid/feed",
 			function (response) {
 			  if (response && !response.error) {
-				// handle the result 
-				console.log(response);
+				// handle the result
+				document.write(JSON.stringify(response));
+			  }
+			}
+		);
+		FB.api(
+			"/YairLapid/conversations",
+			function (response) {
+			  if (response && !response.error) {
+				// handle the result
+				document.write(JSON.stringify(response));
+			  }
+			}
+		);
+		FB.api(
+			"/YairLapid/tagged",
+			function (response) {
+			  if (response && !response.error) {
+				// handle the result
+				document.write(JSON.stringify(response));
 			  }
 			}
 		);
