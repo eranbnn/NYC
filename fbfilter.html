@@ -40,7 +40,7 @@
 				  if (response && !response.error) {
 					for (var i = 0 ; i < response.data.length ; i++) {
 						if (response.data[i].from.id === pageID) {
-							document.body.innerHTML += "<a href='" + createUrl(response.data[i].id) + "'>" + response.data[i].message + "</a>" + "<br/>";
+							document.body.innerHTML += "<a href='" + createUrl(response.data[i].id) + "' target='_blank'>" + response.data[i].message + "</a>" + "<br/><br/>";
 						}
 					}
 				  }
