@@ -19,6 +19,7 @@
 	  if (response.status === 'connected') {
 		FB.api(
 			"/" + pageID + "/feed",
+			{limit: 100},
 			handleRespone
 		);
 	  }
