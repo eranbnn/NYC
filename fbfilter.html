@@ -6,6 +6,8 @@
 </body>
 <script>
 
+  var pageID = "107836625941364";
+
   window.fbAsyncInit = function() {
 	FB.init({
 	  appId      : '157695017741774',
@@ -16,7 +18,7 @@
 	FB.getLoginStatus(function(response) {
 	  if (response.status === 'connected') {
 		FB.api(
-			"/YairLapid/feed",
+			"/" + pageID + "/feed",
 			handleRespone
 		);
 	  }
@@ -25,6 +27,10 @@
 		FB.login();
 	  }
 	});
+	
+	function createUrl(commentID) {
+		return "https://www.facebook.com/" + pageID + "/posts/" + commentID.split("_")[0] + "?comment_id=" + commentID.split("_")[1];
+	}
 		
 	function handleRespone(response) {
 		response.data.forEach(function (post) {
@@ -32,7 +38,11 @@
 				"/" + post.id + "/comments",
 				function (response) {
 				  if (response && !response.error) {
-					document.body.innerHTML += (JSON.stringify(response));
+					for (var i = 0 ; i < response.data.length ; i++) {
+						if (response.data[0].from.id === pageID) {
+							document.body.innerHTML += createUrl(response.data[0].id) + "<br/>";
+						}
+					}
 				  }
 				}
 			);
