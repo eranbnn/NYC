@@ -16,10 +16,33 @@
 	FB.getLoginStatus(function(response) {
 	  if (response.status === 'connected') {
 		console.log('Logged in.');
-		FB.api('/me/feed',function(response){
-			var idDiv=document.getElementById('result');
-			idDiv.textContent=JSON.stringify(response);
-		}); 
+			
+		FB.api('/me', {fields: 'last_name'}, function(response) {
+		  console.log(response);
+		});
+		
+		FB.api('/113124472034820', function(response) {
+		  console.log(response);
+		});
+		
+		var body = 'Reading JS SDK documentation';
+		FB.api('/me/feed', 'post', { message: body }, function(response) {
+		  if (!response || response.error) {
+			alert('Error occured');
+		  } else {
+			alert('Post ID: ' + response.id);
+		  }
+		});
+		
+		FB.api(
+			"/YairLapid/feed",
+			function (response) {
+			  if (response && !response.error) {
+				// handle the result 
+				console.log(response);
+			  }
+			}
+		);
 	  }
 	  else {
 		console.log('initiate FB login...');
