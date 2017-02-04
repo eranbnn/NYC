@@ -4,7 +4,7 @@
 </head>
 <body>
 	<h1>comments by page</h1>
-	<form onsubmit="getPosts(this)"><input type="text" placeholder="enter page ID"/></form>
+	<form onsubmit="return getPosts(this)"><input type="text" placeholder="enter page ID" name="page"/></form>
 </body>
 <script>
 
@@ -17,6 +17,7 @@
 			{limit: 100},
 			handleRespone
 		);
+		return false;
 	}
 
 	function createUrl(commentID) {
