@@ -7,7 +7,7 @@ function getPosts(form) {
 	FB.api(
 		"/" + pageID,
 		function (info) {
-			console.log(info);
+			pageID = info.id;
 			FB.api(
 				"/" + pageID + "/feed",
 				{limit: 100},
