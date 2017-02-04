@@ -26,7 +26,7 @@
 	<h1>comments by page <a id="profile-link" target="_blank" style="display:none;"><img><span></span></a></h1>
 	<form onsubmit="getPosts(this)"><input autofocus type="text" placeholder="enter page ID" name="page"/><button type="submit">Fetch</button></form>
 	<div id="results"></div>
-	<button onclick="getMore()">More</button>
+	<button id="more" onclick="getMore()" style="display:none;">More</button>
 </body>
 <script>
 	window.fbAsyncInit = function() {

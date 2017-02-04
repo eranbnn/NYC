@@ -3,8 +3,12 @@ var page = {};
 var resultsDiv;
 
 function getPosts(form) {
-	var profileLink = document.querySelector("#profile-link");
+	
+	document.querySelector("#more").style.display = "";
 	resultsDiv = document.querySelector("#results");
+	resultsDiv.innerHTML = "";
+	
+	var profileLink = document.querySelector("#profile-link");
 	page.id = form[0].value;
 	FB.api(
 		"/" + page.id,
