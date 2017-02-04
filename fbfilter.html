@@ -3,32 +3,22 @@
 	<title>FB Filter</title>
 </head>
 <body>
+	<h1>comments by page</h1>
+	<form onsubmit="getPosts(this)"><input type="text" placeholder="enter page ID"/></form>
 </body>
 <script>
 
-  var pageID = "107836625941364";
+	var pageID;
 
-  window.fbAsyncInit = function() {
-	FB.init({
-	  appId      : '157695017741774',
-	  xfbml      : true,
-	  version    : 'v2.8'
-	});
-
-	FB.getLoginStatus(function(response) {
-	  if (response.status === 'connected') {
+	function getPosts(form) {
+		pageID = form[0][0].value;
 		FB.api(
 			"/" + pageID + "/feed",
 			{limit: 100},
 			handleRespone
 		);
-	  }
-	  else {
-		console.log('initiate FB login...');
-		FB.login();
-	  }
-	});
-	
+	}
+
 	function createUrl(commentID) {
 		return "https://www.facebook.com/" + pageID + "/posts/" + commentID.split("_")[0] + "?comment_id=" + commentID.split("_")[1];
 	}
@@ -50,15 +40,28 @@
 		});
 	}
 
+	window.fbAsyncInit = function() {
+		FB.init({
+			appId      : '157695017741774',
+			xfbml      : true,
+			version    : 'v2.8'
+		});
 
-  };
+		FB.getLoginStatus(function(response) {
+			if (response.status !== 'connected') {
+				console.log('initiate FB login...');
+				FB.login();
+			}
+		});
 
-  (function(d, s, id){
-	 var js, fjs = d.getElementsByTagName(s)[0];
-	 if (d.getElementById(id)) {return;}
-	 js = d.createElement(s); js.id = id;
-	 js.src = "https://connect.facebook.net/en_US/sdk.js";
-	 console.log(js.length);
-	 fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));</script>
+	};
+
+	(function(d, s, id){
+		 var js, fjs = d.getElementsByTagName(s)[0];
+		 if (d.getElementById(id)) {return;}
+		 js = d.createElement(s); js.id = id;
+		 js.src = "https://connect.facebook.net/en_US/sdk.js";
+		 console.log(js.length);
+		 fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
 </html>
