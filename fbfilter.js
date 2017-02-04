@@ -1,29 +1,44 @@
 
-var pageID;
-var nextPage;
+var page = {};
 
 function getPosts(form) {
-	pageID = form[0].value;
+	var profileLink = document.querySelector("profile-link");
+	page.id = form[0].value;
 	FB.api(
-		"/" + pageID,
+		"/" + page.id,
 		function (info) {
-			pageID = info.id;
+			page.id = info.id;
+			page.name = info.name;
+			profileLink.childNodes[1].innerHTML = info.name;
+			profileLink.href = createBaseUrl();
 			FB.api(
-				"/" + pageID + "/feed",
+				"/" + page.id + "/feed",
 				{limit: 100},
 				handleRespone
 			);
+		}
+	);
+	FB.api(
+		"/" + page.id + "/picture",
+		function (pic) {
+			page.picture = pic;
+			profileLink.style.display = "";
+			profileLink.childNodes[0].src = pic;
 		}
 	);
 	event.preventDefault();
 }
 
 function getMore() {
-	$.ajax({url: nextPage, success: handleRespone});
+	$.ajax({url: page.next, success: handleRespone});
+}
+
+function createBaseUrl() {
+	return "https://www.facebook.com/" + page.id;
 }
 
 function createUrl(commentID) {
-	return "https://www.facebook.com/" + pageID + "/posts/" + commentID.split("_")[0] + "?comment_id=" + commentID.split("_")[1];
+	return createBaseUrl() + "/posts/" + commentID.split("_")[0] + "?comment_id=" + commentID.split("_")[1];
 }
 	
 function handleRespone(response) {
@@ -34,7 +49,7 @@ function handleRespone(response) {
 			function (response) {
 			  if (response && !response.error) {
 				for (var i = 0 ; i < response.data.length ; i++) {
-					if (response.data[i].from.id === pageID) {
+					if (response.data[i].from.id === page.id) {
 						resultsDiv.innerHTML += "<a href='" + createUrl(response.data[i].id) + "' target='_blank'>" + response.data[i].message + "</a>" + "<br/><br/>";
 					}
 				}
@@ -42,5 +57,5 @@ function handleRespone(response) {
 			}
 		);
 	});
-	nextPage = response.paging.next;
+	page.next = response.paging.next;
 }
