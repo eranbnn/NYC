@@ -2,7 +2,7 @@
 var page = {};
 
 function getPosts(form) {
-	var profileLink = document.querySelector("profile-link");
+	var profileLink = document.querySelector("#profile-link");
 	page.id = form[0].value;
 	FB.api(
 		"/" + page.id,
@@ -20,10 +20,10 @@ function getPosts(form) {
 	);
 	FB.api(
 		"/" + page.id + "/picture",
-		function (pic) {
-			page.picture = pic;
+		function (response) {
+			page.picture = response.data;
 			profileLink.style.display = "";
-			profileLink.childNodes[0].src = pic;
+			profileLink.childNodes[0].src = page.picture.url;
 		}
 	);
 	event.preventDefault();
