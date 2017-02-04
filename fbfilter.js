@@ -5,9 +5,15 @@ var nextPage;
 function getPosts(form) {
 	pageID = form[0].value;
 	FB.api(
-		"/" + pageID + "/feed",
-		{limit: 100},
-		handleRespone
+		"/" + pageID,
+		function (info) {
+			console.log(info);
+			FB.api(
+				"/" + pageID + "/feed",
+				{limit: 100},
+				handleRespone
+			);
+		}
 	);
 	event.preventDefault();
 }
