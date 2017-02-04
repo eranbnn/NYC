@@ -19,7 +19,11 @@ function getPosts(form) {
 }
 
 function getMore() {
-	$.ajax({url: nextPage, success: handleRespone});
+	FB.api(
+		"/",
+		{id: nextPage},
+		handleRespone
+	);
 }
 
 function createUrl(commentID) {
@@ -27,6 +31,7 @@ function createUrl(commentID) {
 }
 	
 function handleRespone(response) {
+	var resultsDiv = document.querySelector("#results");
 	response.data.forEach(function (post) {
 		FB.api(
 			"/" + post.id + "/comments",
@@ -34,7 +39,7 @@ function handleRespone(response) {
 			  if (response && !response.error) {
 				for (var i = 0 ; i < response.data.length ; i++) {
 					if (response.data[i].from.id === pageID) {
-						document.body.innerHTML += "<a href='" + createUrl(response.data[i].id) + "' target='_blank'>" + response.data[i].message + "</a>" + "<br/><br/>";
+						resultsDiv.innerHTML += "<a href='" + createUrl(response.data[i].id) + "' target='_blank'>" + response.data[i].message + "</a>" + "<br/><br/>";
 					}
 				}
 			  }
