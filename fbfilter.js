@@ -1,8 +1,10 @@
 
 var page = {};
+var resultsDiv;
 
 function getPosts(form) {
 	var profileLink = document.querySelector("#profile-link");
+	resultsDiv = document.querySelector("#results");
 	page.id = form[0].value;
 	FB.api(
 		"/" + page.id,
@@ -59,7 +61,6 @@ function handleComments(response) {
 }
 	
 function handleRespone(response) {
-	var resultsDiv = document.querySelector("#results");
 	response.data.forEach(function (post) {
 		FB.api(
 			"/" + post.id + "/comments",
