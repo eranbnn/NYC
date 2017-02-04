@@ -4,7 +4,7 @@
 </head>
 <body>
 	<h1>comments by page</h1>
-	<form onsubmit="return getPosts(this)"><input autofocus type="text" placeholder="enter page ID" name="page"/><button type="submit">Fetch</button></form>
+	<form onsubmit="getPosts(this)"><input autofocus type="text" placeholder="enter page ID" name="page"/><button type="submit">Fetch</button></form>
 	<button onclick="getMore()">More</button>
 </body>
 <script>
@@ -19,13 +19,13 @@
 			{limit: 100},
 			handleRespone
 		);
-		return false;
+		event.preventDefault();
 	}
 
 	function getMore() {
 		FB.api(
-			"/" + pageID + "/feed",
-			{id: nextPage},
+			"/",
+			{id: nextPage.replace(/\//g,"\\/")},
 			handleRespone
 		);
 	}
@@ -72,7 +72,7 @@
 		 var js, fjs = d.getElementsByTagName(s)[0];
 		 if (d.getElementById(id)) {return;}
 		 js = d.createElement(s); js.id = id;
-		 js.src = "https://connect.facebook.net/en_US/sdk.js";
+		 js.src = "//connect.facebook.net/en_US/sdk.js";
 		 console.log(js.length);
 		 fjs.parentNode.insertBefore(js, fjs);
 	}(document, 'script', 'facebook-jssdk'));</script>
