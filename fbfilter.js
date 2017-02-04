@@ -19,11 +19,7 @@ function getPosts(form) {
 }
 
 function getMore() {
-	FB.api(
-		"/",
-		{id: nextPage.replace(/\//g,"\\/")},
-		handleRespone
-	);
+	$.ajax({url: nextPage, success: handleRespone});
 }
 
 function createUrl(commentID) {
