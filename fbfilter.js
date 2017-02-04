@@ -40,21 +40,31 @@ function createBaseUrl() {
 function createUrl(commentID) {
 	return createBaseUrl() + "/posts/" + commentID.split("_")[0] + "?comment_id=" + commentID.split("_")[1];
 }
+
+function handleComments(response) {
+	if (response && !response.error && response.data.length) {
+		response.data.forEach(function (comment) {
+			if (comment.from.id === page.id) {
+				resultsDiv.innerHTML += "<a href='" + createUrl(comment.id) + "' target='_blank'>" + comment.message + "</a>" + "<br/><br/>";
+			}
+			if (comment.comment_count) {
+				FB.api(
+					"/" + comment.id + "/comments",
+					{fields: "comment_count, from, message, created_time"},
+					handleComments
+				);
+			}
+		});
+	}
+}
 	
 function handleRespone(response) {
 	var resultsDiv = document.querySelector("#results");
 	response.data.forEach(function (post) {
 		FB.api(
 			"/" + post.id + "/comments",
-			function (response) {
-			  if (response && !response.error) {
-				for (var i = 0 ; i < response.data.length ; i++) {
-					if (response.data[i].from.id === page.id) {
-						resultsDiv.innerHTML += "<a href='" + createUrl(response.data[i].id) + "' target='_blank'>" + response.data[i].message + "</a>" + "<br/><br/>";
-					}
-				}
-			  }
-			}
+			{fields: "comment_count, from, message, created_time"},
+			handleComments
 		);
 	});
 	page.next = response.paging.next;
