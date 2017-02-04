@@ -5,10 +5,12 @@
 <body>
 	<h1>comments by page</h1>
 	<form onsubmit="return getPosts(this)"><input autofocus type="text" placeholder="enter page ID" name="page"/><button type="submit">Fetch</button></form>
+	<button onclick="getMore()">More</button>
 </body>
 <script>
 
 	var pageID;
+	var nextPage;
 
 	function getPosts(form) {
 		pageID = form[0].value;
@@ -18,6 +20,14 @@
 			handleRespone
 		);
 		return false;
+	}
+
+	function getMore() {
+		FB.api(
+			"/" + pageID + "/feed",
+			{id: nextPage},
+			handleRespone
+		);
 	}
 
 	function createUrl(commentID) {
@@ -39,6 +49,7 @@
 				}
 			);
 		});
+		nextPage = response.paging.next;
 	}
 
 	window.fbAsyncInit = function() {
