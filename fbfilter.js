@@ -34,31 +34,6 @@ function getPosts(form) {
 function getMore() {
 	$.ajax({url: page.next, success: handleRespone});
 }
-
-function createBaseUrl() {
-	return "https://www.facebook.com/" + page.id;
-}
-
-function createUrl(commentID) {
-	return createBaseUrl() + "/posts/" + commentID.split("_")[0] + "?comment_id=" + commentID.split("_")[1];
-}
-
-function handleComments(response) {
-	if (response && !response.error && response.data.length) {
-		response.data.forEach(function (comment) {
-			if (comment.from.id === page.id) {
-				resultsDiv.innerHTML += "<a href='" + createUrl(comment.id) + "' target='_blank'>" + comment.message + "</a>" + "<br/><br/>";
-			}
-			if (comment.comment_count) {
-				FB.api(
-					"/" + comment.id + "/comments",
-					{fields: "comment_count, from, message, created_time"},
-					handleComments
-				);
-			}
-		});
-	}
-}
 	
 function handleRespone(response) {
 	response.data.forEach(function (post) {
@@ -69,4 +44,27 @@ function handleRespone(response) {
 		);
 	});
 	page.next = response.paging.next;
+}
+
+function handleComments(response) {
+	response.data.forEach(function (comment) {
+		if (comment.from.id === page.id) {
+			resultsDiv.innerHTML += "<a href='" + createUrl(comment.id) + "' target='_blank'>" + (comment.message || "--NO TEXT--") + "</a><br/><br/>";
+		}
+		if (comment.comment_count) {
+			FB.api(
+				"/" + comment.id + "/comments",
+				{fields: "comment_count, from, message, created_time"},
+				handleComments
+			);
+		}
+	});
+}
+
+function createUrl(commentID) {
+	return createBaseUrl() + "/posts/" + commentID.split("_")[0] + "?comment_id=" + commentID.split("_")[1];
+}
+
+function createBaseUrl() {
+	return "https://www.facebook.com/" + page.id;
 }
